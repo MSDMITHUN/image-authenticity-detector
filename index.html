@@ -3,15 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <!-- SEO -->
-  <meta name="description" content="AI-based Image Authenticity and Provenance Detection System using Neural Networks and EXIF Metadata">
-
-  <!-- Security -->
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-
   <title>Image Authenticity & Provenance Detector</title>
-
   <style>
     :root {
       --bg: #07111f;
@@ -22,6 +14,8 @@
       --muted: #96a3b8;
       --accent: #60a5fa;
       --accent-2: #8b5cf6;
+      --good: #34d399;
+      --warn: #fbbf24;
       --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
       --radius: 22px;
       --max: 1180px;
@@ -39,11 +33,13 @@
         radial-gradient(circle at top right, rgba(139, 92, 246, 0.16), transparent 30%),
         linear-gradient(180deg, var(--bg) 0%, #081121 45%, #050b15 100%);
       color: var(--text);
+      min-height: 100vh;
     }
 
     .topbar {
       position: sticky;
       top: 0;
+      z-index: 50;
       backdrop-filter: blur(16px);
       background: rgba(7, 17, 31, 0.72);
       border-bottom: 1px solid rgba(148, 163, 184, 0.12);
@@ -51,162 +47,63 @@
 
     .topbar-inner {
       max-width: var(--max);
-      margin: auto;
+      margin: 0 auto;
       padding: 16px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 16px;
     }
 
     .brand {
       display: flex;
-      gap: 10px;
-      font-weight: bold;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      font-size: 1rem;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 12px 30px rgba(96, 165, 250, 0.25);
+      font-size: 1.05rem;
+    }
+
+    .nav {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .nav a {
       color: var(--muted);
       text-decoration: none;
-      margin-left: 10px;
+      font-size: 0.95rem;
+      padding: 8px 12px;
+      border-radius: 999px;
+      transition: 0.2s ease;
+    }
+
+    .nav a:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
     }
 
     .container {
       max-width: var(--max);
-      margin: auto;
-      padding: 20px;
+      margin: 0 auto;
+      padding: 28px 24px 72px;
     }
 
-    h1 { font-size: 2.5rem; }
-
-    .btn {
-      padding: 10px 15px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: white;
-    }
-
-    .section { margin-top: 30px; }
-
-    .card {
-      background: var(--card);
-      padding: 20px;
-      border-radius: var(--radius);
-      margin-top: 15px;
-    }
-
-    .flow {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px,1fr));
-      gap: 10px;
-    }
-
-    .step {
-      background: rgba(255,255,255,0.05);
-      padding: 15px;
-      text-align: center;
-      border-radius: 10px;
-    }
-
-    iframe {
-      width: 100%;
-      height: 70vh;
-      border-radius: 12px;
-      border: none;
-    }
-
-    .footer {
-      text-align: center;
-      margin-top: 40px;
-      color: var(--muted);
-      border-top: 1px solid rgba(255,255,255,0.1);
-      padding-top: 10px;
-    }
-  </style>
-</head>
-
-<body>
-
-<header class="topbar">
-  <div class="topbar-inner">
-    <div class="brand">🔍 Image Detector</div>
-    <nav class="nav">
-      <a href="#overview">Overview</a>
-      <a href="#features">Features</a>
-      <a href="#architecture">Architecture</a>
-      <a href="#demo">Demo</a>
-    </nav>
-  </div>
-</header>
-
-<main class="container">
-
-  <!-- HERO -->
-  <section id="overview">
-    <h1>AI Image Authenticity Detector</h1>
-    <p>Detect whether images are real or AI-generated using neural models and EXIF metadata.</p>
-    <a class="btn btn-primary" href="#demo">Open Demo</a>
-  </section>
-
-  <!-- FEATURES -->
-  <section class="section" id="features">
-    <h2>Features</h2>
-
-    <div class="card">
-      <h3>Neural Analysis</h3>
-      <p>Detects AI-generated patterns in images.</p>
-    </div>
-
-    <div class="card">
-      <h3>Metadata Inspection</h3>
-      <p>Checks EXIF data like camera model and software traces.</p>
-    </div>
-
-    <div class="card">
-      <h3>Final Verdict</h3>
-      <p>Outputs: Authentic or Fake with confidence score.</p>
-    </div>
-  </section>
-
-  <!-- ARCHITECTURE -->
-  <section class="section" id="architecture">
-    <h2>System Flow</h2>
-    <div class="card">
-      <div class="flow">
-        <div class="step">Upload</div>
-        <div class="step">AI Model</div>
-        <div class="step">EXIF Check</div>
-        <div class="step">Compare</div>
-        <div class="step">Result</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- DEMO -->
-  <section class="section" id="demo">
-    <h2>Live Demo</h2>
-
-    <div class="card">
-      <iframe 
-        title="AI Image Detector Demo"
-        src="https://Mithunbjifdhk-authenticity-detector.hf.space">
-      </iframe>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <div class="footer">
-    © 2026 Image Authenticity Detector
-  </div>
-
-</main>
-
-</body>
-</html>      padding: 58px 0 24px;
+    .hero {
+      padding: 58px 0 24px;
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
       gap: 28px;
@@ -337,11 +234,6 @@
       letter-spacing: -0.02em;
     }
 
-    .section-title span {
-      color: var(--muted);
-      font-size: 0.96rem;
-    }
-
     .grid-3 {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -357,34 +249,6 @@
       backdrop-filter: blur(14px);
     }
 
-    .card h3 {
-      margin: 0 0 12px;
-      font-size: 1.08rem;
-    }
-
-    .card p, .card li {
-      color: var(--muted);
-      line-height: 1.7;
-      margin: 0;
-      font-size: 0.97rem;
-    }
-
-    .pill-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 16px;
-    }
-
-    .pill {
-      padding: 9px 12px;
-      border-radius: 999px;
-      background: rgba(96, 165, 250, 0.1);
-      border: 1px solid rgba(96, 165, 250, 0.2);
-      color: #d7e8ff;
-      font-size: 0.9rem;
-    }
-
     .flow {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -397,198 +261,35 @@
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(148, 163, 184, 0.15);
       text-align: center;
-      min-height: 112px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .step .num {
-      width: 34px;
-      height: 34px;
-      margin: 0 auto;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-weight: 800;
-      background: linear-gradient(135deg, rgba(96,165,250,0.28), rgba(139,92,246,0.28));
-      color: #fff;
-    }
-
-    .step .txt {
-      font-size: 0.95rem;
-      color: var(--text);
-      font-weight: 600;
-      line-height: 1.4;
-    }
-
-    .demo-wrap {
-      overflow: hidden;
-      padding: 14px;
     }
 
     .demo-frame {
       width: 100%;
       min-height: 760px;
-      border: 0;
       border-radius: 18px;
-      background: #fff;
-    }
-
-    .footer {
-      margin-top: 34px;
-      padding-top: 22px;
-      border-top: 1px solid rgba(148, 163, 184, 0.14);
-      color: var(--muted);
-      text-align: center;
-      font-size: 0.95rem;
     }
 
     @media (max-width: 980px) {
       .hero, .grid-3, .flow { grid-template-columns: 1fr; }
-      .topbar-inner { flex-direction: column; align-items: flex-start; }
-      .nav { justify-content: flex-start; }
-      .stat-grid { grid-template-columns: 1fr 1fr; }
-      .demo-frame { min-height: 680px; }
-    }
-
-    @media (max-width: 640px) {
-      .container { padding-inline: 16px; }
-      .hero { padding-top: 32px; }
-      .stat-grid { grid-template-columns: 1fr; }
-      .section-title { flex-direction: column; align-items: flex-start; }
-      .demo-frame { min-height: 600px; }
     }
   </style>
 </head>
+
 <body>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <div class="brand-mark">🔍</div>
-        <div>Image Authenticity &amp; Provenance Detector</div>
-      </div>
-      <nav class="nav">
-        <a href="#overview">Overview</a>
-        <a href="#architecture">Architecture</a>
-        <a href="#features">Features</a>
-        <a href="#demo">Live Demo</a>
-      </nav>
-    </div>
-  </header>
 
-  <main class="container">
-    <section class="hero" id="overview">
-      <div>
-        <div class="eyebrow">Digital Forensics • AI Image Detection • Metadata Verification</div>
-        <h1>Professional image forensics for authenticity and provenance analysis.</h1>
-        <p>
-          This web application evaluates uploaded images using a dual-engine approach: a neural vision model for visual anomaly detection and EXIF metadata inspection for hardware trace signals.
-          The result is a clear, presentation-ready authenticity verdict.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#demo">Open Live Demo</a>
-          <a class="btn btn-secondary" href="#architecture">View Architecture</a>
-        </div>
-      </div>
+<section class="section" id="demo">
+  <div class="card">
+    
+    <!-- ✅ ONLY CHANGE: iframe updated -->
+    <iframe 
+      src="https://Mithunbjifdhk-authenticity-detector.hf.space"
+      sandbox="allow-scripts allow-same-origin allow-forms"
+      allowfullscreen
+      class="demo-frame">
+    </iframe>
 
-      <aside class="hero-panel">
-        <h3>Project Snapshot</h3>
-        <div class="stat-grid">
-          <div class="stat">
-            <div class="label">Engine 1</div>
-            <div class="value">Neural image classification</div>
-          </div>
-          <div class="stat">
-            <div class="label">Engine 2</div>
-            <div class="value">EXIF metadata inspection</div>
-          </div>
-          <div class="stat">
-            <div class="label">Output</div>
-            <div class="value">Authentic or synthetic verdict</div>
-          </div>
-          <div class="stat">
-            <div class="label">Deployment</div>
-            <div class="value">Hugging Face Spaces</div>
-          </div>
-        </div>
-      </aside>
-    </section>
+  </div>
+</section>
 
-    <section class="section" id="features">
-      <div class="section-title">
-        <h2>Key capabilities</h2>
-        <span>Clean layout, easy to explain, demo-friendly</span>
-      </div>
-      <div class="grid-3">
-        <div class="card">
-          <h3>Neural authenticity analysis</h3>
-          <p>Uses a pre-trained image-classification pipeline to identify visual patterns that often appear in synthetic or edited media.</p>
-          <div class="pill-row">
-            <span class="pill">Confidence scoring</span>
-            <span class="pill">Pixel-level cues</span>
-          </div>
-        </div>
-        <div class="card">
-          <h3>Metadata trace inspection</h3>
-          <p>Checks for camera-related EXIF fields such as device make, model, ISO, focal length, and software indicators.</p>
-          <div class="pill-row">
-            <span class="pill">EXIF parsing</span>
-            <span class="pill">Hardware signals</span>
-          </div>
-        </div>
-        <div class="card">
-          <h3>Clear final verdict</h3>
-         
-          <div class="pill-row">
-            <span class="pill">Authentic</span>
-            <span class="pill">Synthetic / altered</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="architecture">
-      <div class="section-title">
-        <h2>System architecture</h2>
-      
-      </div>
-      <div class="card">
-        <div class="flow">
-          <div class="step"><div class="num">1</div><div class="txt">Image upload</div></div>
-          <div class="step"><div class="num">2</div><div class="txt">Neural vision model</div></div>
-          <div class="step"><div class="num">3</div><div class="txt">EXIF metadata extraction</div></div>
-          <div class="step"><div class="num">4</div><div class="txt">Confidence comparison</div></div>
-          <div class="step"><div class="num">5</div><div class="txt">Final authenticity verdict</div></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="demo">
-      <div class="section-title">
-        <h2>Live demo</h2>
-       
-      </div>
-      <div class="card demo-wrap">
-       <div style="text-align:center; padding:40px; background:#0b172a; border-radius:20px;">
-  
-  <h2 style="margin-bottom:10px;">🧪 Live Demo</h2>
-  <p style="color:#aaa;">Interactive AI detection system</p>
-
-  <!-- Preview Frame (Optional fallback message) -->
-<iframe 
-  src="https://Mithunbjifdhk-authenticity-detector.hf.space"
-  width="100%" 
-  height="700"
-  style="border:none; border-radius:12px;">
-</iframe>
-      </div>
-    </section>
-
-    <div class="footer">
-      
-    </div>
-  </main>
 </body>
 </html>
